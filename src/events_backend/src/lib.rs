@@ -125,8 +125,10 @@ fn cancel_join_event(event_id: u64, participant_address: String) -> Result<(), E
 
         // event aldık, klonladık, degistircez, update etcez.
         if let Some(mut event) = events_map.get(&event_id) {
-            if () {
-                //
+            if let Some(index) = event.participants.iter().position(|p| p.address == participant_address) {
+                event.participants.remove(index);
+                events_map.insert(event_id, event);
+                Ok(());
             } else {
                 Err(EventError::CancelJoinError);
             }
